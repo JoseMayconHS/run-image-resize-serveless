@@ -1,0 +1,43 @@
+service: runless
+
+frameworkVersion: '3'
+
+configValidationMode: error
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: sa-east-1
+  memorySize: 256
+  iam:
+    role:
+      statements:
+        - Effect: 'Allow'
+          Action:
+            - 's3:*'
+          Resource:
+            - 'arn:aws:s3:::*'
+
+functions:
+  resize:
+    handler: resize.handle
+    environment:
+      BUCKET_NAME: ${env:BUCKET_NAME}
+      TO_BUCKET_NAME: ${env:TO_BUCKET_NAME}
+      RESIZE_DIRECTORY: ${env:RESIZE_DIRECTORY}
+    events:
+      - s3:
+          bucket: ${env:BUCKET_NAME}
+          event: s3:ObjectCreated:*
+          rules:
+            - suffix: .jpg
+      - s3:
+          bucket: ${env:BUCKET_NAME}
+          event: s3:ObjectCreated:*
+          rules:
+            - suffix: .png
+      - s3:
+          bucket: ${env:BUCKET_NAME}
+          event: s3:ObjectCreated:*
+          rules:
+            - suffix: .jpeg

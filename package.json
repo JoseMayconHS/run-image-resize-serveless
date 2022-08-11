@@ -1,0 +1,18 @@
+{
+  "name": "runless",
+  "version": "1.0.0",
+  "description": "",
+  "main": "resize.js",
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.113.0",
+    "@aws-sdk/lib-storage": "^3.113.0",
+    "sharp": "^0.30.6"
+  },
+  "scripts": {
+    "predeploy": "npm install --platform=linux --arch=x64 --target=14",
+    "deploy": "serverless deploy"
+  },
+  "keywords": [],
+  "author": "Maycon Silva",
+  "license": "ISC"
+}
